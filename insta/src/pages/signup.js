@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function Signup() {
-    return(
-        <p>Hello from Sign Up</p>
+export default function SignUp() {
+    return (
+        <p>Hello from SignUp</p>
     )
 }

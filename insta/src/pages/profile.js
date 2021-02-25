@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Profile() {
-    return(
+    return (
         <p>Hello from Profile</p>
     )
 }
