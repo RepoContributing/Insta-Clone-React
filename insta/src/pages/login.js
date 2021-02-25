@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 
@@ -9,6 +9,12 @@ import * as ROUTES from '../constants/routes';
 // Hint: Think about what React hook you'd use to apply the title - make sure that the hook chosen only runs on first render
 
 export default function Login() {
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [error, setError] = useState('');
+    const isInvalid = password === '' || emailAddress === '';
+
     useEffect(()=> {
         document.title = 'Login - Instagram';
     }, [])
@@ -29,16 +35,21 @@ export default function Login() {
                         className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
                         type="text"
                         placeholder="Email address"
+                        value={emailAddress}
+                        onChange = {({target}) => setEmailAddress(target.value)}
                     />
                     <input
                         aria-label="Enter your password"
                         className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
                         type="password"
                         placeholder="Password"
+                        value={password}
+                        onChange = {({target}) => setPassword(target.value)}
                     />
                     <button
+                        disabled = {isInvalid}
                         type="submit"
-                        className={`bg-blue-500 text-white w-full rounded h-8 font-bold`}
+                        className={`bg-blue-500 text-white w-full rounded h-8 font-bold ${isInvalid && 'cursor-not-allowed opacity-50'}`}
                     >
                         Log In
                     </button>
