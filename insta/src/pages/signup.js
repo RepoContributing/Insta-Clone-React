@@ -1,15 +1,45 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
+import FirebaseContext from '../context/firebase';
 
 
 export default function SignUp() {
+    const firebase = useContext(FirebaseContext);
     const [username, setUsername] = useState('');
     const [fullName, setFullName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
 
     const [error, setError] = useState('');
+    const isInvalid = username === '' || password === '' || emailAddress === '' || fullName === '';
+
+    const handleSignUp = async (event) => {
+        event.preventDefault();
+
+        try{
+            const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(emailAddress,password);
+            await createdUserResult.user.updateProfile({
+                displayName: username
+
+            });
+            await firebase.firestore().collection('users').add({
+                userId: createdUserResult.user().uid,
+                username: username.toLowerCase(),
+                fullName, 
+                emailAddress: emailAddress.toLowerCase(),
+                following: [],
+                followers: [],
+                dateCreated: Date.now()
+
+            })
+        }catch (error){
+            setFullName('');
+            setEmailAddress('');
+            setPassword('');
+            setError(error.message);
+        }
+    }
     useEffect(() =>{
         document.title = 'Sign Up - Instagram';
     },[]);
@@ -20,7 +50,8 @@ export default function SignUp() {
                 <h1 className="flex justify-center w-full">
                         <img src="/images/logo.png" alt="Instagram" className="mt-2 w-6/12 mb-4" />
                     </h1>
-                <form method="POST">
+                {error && <p className="mb-4 text-xs text-red-500">{error}</p>} 
+                <form onSubmit={handleSignUp} method="POST">
                     <input 
                         aria-label="Enter your username"
                         className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
@@ -54,8 +85,10 @@ export default function SignUp() {
                         onChange={({target}) => setPassword(target.value.toLowerCase())}
                         />
                     <button
+                        disabled={isInvalid}
                         type="submit"
-                        className={`bg-blue-500 text-white w-full rounded h-8 font-bold`}
+                        className={`bg-blue-500 text-white w-full rounded h-8 font-bold ${isInvalid && 'cursor-not-allowed opacity-50'
+                        }`}
                     >
                         Sign Up
                     </button>
