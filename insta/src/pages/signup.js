@@ -1,8 +1,18 @@
-import React, {useState, useffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 
+
 export default function SignUp() {
+    const [username, setUsername] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [error, setError] = useState('');
+    useEffect(() =>{
+        document.title = 'Sign Up - Instagram';
+    },[]);
     return (
         <div className="container flex mx-auto max-w-xs items-center h-screen">
             <div className="flex flex-col">
@@ -16,24 +26,32 @@ export default function SignUp() {
                         className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                         type="text"
                         placeholder="Username"
+                        value={username}
+                        onChange={({target}) => setUsername(target.value.toLowerCase())}
                         />
                     <input 
                         aria-label="Enter your full name"
                         className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                         type="text"
                         placeholder="Full name"
+                        value={fullName}
+                        onChange={({target}) => setFullName(target.value)}
                         />
                     <input 
                         aria-label="Enter your email address"
                         className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                         type="text"
                         placeholder="Email Address"
+                        value={emailAddress}
+                        onChange={({target}) => setEmailAddress(target.value.toLowerCase())}
                         />
                     <input 
                         aria-label="Enter your password"
                         className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                         type="password"
                         placeholder="Password"
+                        value={password}
+                        onChange={({target}) => setPassword(target.value.toLowerCase())}
                         />
                     <button
                         type="submit"
