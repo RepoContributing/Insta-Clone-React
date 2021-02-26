@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import FirebaseContext from '../context/firebase';
 import * as ROUTES from '../constants/routes';
 import { doesUsernameExist } from '../services/firebase';
 
 export default function SignUp() {
+    const history = useHistory();
     const { firebase } = useContext(FirebaseContext);
     
     const [username, setUsername] = useState('');
@@ -38,6 +39,7 @@ export default function SignUp() {
                 });
                 
                 // we have to do a redirect to the dashboard
+                history.push(ROUTES.DASHBOARD);
             } catch (error) {
                 setFullName('');
                 setError(error.message);
