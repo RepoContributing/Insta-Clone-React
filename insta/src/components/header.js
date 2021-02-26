@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import FirebaseContext from '../context/firebase';
+import UserContext from '../context/user';
 import * as ROUTES from '../constants/routes';
 
 export default function Header() {
     const { firebase } = useContext(FirebaseContext);
-    const user = {
-        displayName:"karl"
-    };
+    const { user } = useContext(UserContext);
     
     return (
         <header className="h-16 bg-white border-b mb-8">
@@ -24,7 +23,7 @@ export default function Header() {
                         {user ? (
                             <>
                                 <Link to={ROUTES.DASHBOARD} arial-label="Home">
-                                <svg
+                                    <svg
                                         className="w-8 mr-6 text-black-light cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -50,7 +49,7 @@ export default function Header() {
                                         }
                                     }}
                                 >
-                                           <svg
+                                    <svg
                                         className="w-8 mr-6 text-black-light cursor-pointer"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
